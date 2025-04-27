@@ -63,6 +63,7 @@
       }
 
       input {
+        width: 100%;
         padding: 14px;
         border: none;
         border-radius: 10px;
@@ -71,6 +72,19 @@
       }
 
       input::placeholder {
+        color: #aaa;
+      }
+
+      .password-container {
+        position: relative;
+      }
+
+      .password-container i {
+        position: absolute;
+        top: 50%;
+        right: 15px;
+        transform: translateY(-50%);
+        cursor: pointer;
         color: #aaa;
       }
 
@@ -147,6 +161,7 @@
           transform: rotate(360deg);
         }
       }
+
       @keyframes fadeIn {
         from {
           opacity: 0;
@@ -166,13 +181,18 @@
 
       <form id="loginForm">
         <input type="text" id="username" placeholder="Masukkan Username" required />
-        <input type="password" id="password" placeholder="Password" required />
+
+        <div class="password-container">
+          <input type="password" id="password" placeholder="Password" required />
+          <i class="fas fa-eye" id="togglePassword"></i>
+        </div>
+
         <button type="submit" class="login-button">Login</button>
       </form>
 
       <div class="social-login">
-        <a href="#" class="social-button"> <i class="fab fa-x"></i> Continue with X </a>
-        <a href="#" class="social-button"> <i class="fab fa-apple"></i> Continue with Apple </a>
+        <a href="#" class="social-button"><i class="fab fa-x"></i> Continue with X</a>
+        <a href="#" class="social-button"><i class="fab fa-apple"></i> Continue with Apple</a>
       </div>
     </div>
 
@@ -184,24 +204,29 @@
     <script>
       const form = document.getElementById('loginForm');
       const loadingOverlay = document.getElementById('loadingOverlay');
+      const togglePassword = document.getElementById('togglePassword');
+      const password = document.getElementById('password');
 
       form.addEventListener('submit', function (event) {
-        event.preventDefault(); // Mencegah reload form
+        event.preventDefault();
 
         const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
+        const passwordValue = password.value;
 
-        if (username === 'admin' && password === '12345') {
-          // Tampilkan loading
+        if (username === 'admin' && passwordValue === '4321') {
           loadingOverlay.style.display = 'flex';
-
-          // Setelah 2 detik, redirect
           setTimeout(() => {
             window.location.href = 'choose.html';
           }, 2000);
         } else {
           alert('Username atau password salah!');
         }
+      });
+
+      togglePassword.addEventListener('click', function () {
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.classList.toggle('fa-eye-slash');
       });
     </script>
   </body>
